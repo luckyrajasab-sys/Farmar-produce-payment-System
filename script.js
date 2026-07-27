@@ -18,6 +18,7 @@ detail:document.getElementById("detailPanel"),
 form:document.getElementById("recordForm"),
 memberId:document.getElementById("memberId"),
 memberName:document.getElementById("memberName"),
+memberMobile:document.getElementById("memberMobile"),
 produce:document.getElementById("produce"),
 date:document.getElementById("date"),
 quantity:document.getElementById("quantityKg"),
@@ -149,6 +150,7 @@ let data=
 `${r.entry_id}
 ${r.member_id}
 ${r.member_name}
+${r.member_mobile}
 ${r.produce}`.toLowerCase();
 
 
@@ -183,6 +185,7 @@ tr.innerHTML=`
 ${r.member_name}
 <br>
 <small>${r.member_id}</small>
+${r.member_mobile}
 </td>
 
 <td>${r.produce}</td>
@@ -280,6 +283,8 @@ e.detail.innerHTML=`
 
 <p>ID : ${r.member_id}</p>
 
+<p>MobileNo : ${r.member_mobile}</p>
+
 <p>Produce : ${r.produce}</p>
 
 <p>Quantity : ${r.quantity_kg} KG</p>
@@ -358,7 +363,7 @@ return;
 
 
 let id=
-"ENT-"+String(records.length+1).padStart(3,"0");
+"FID -"+String(records.length+1).padStart(3,"0");
 
 
 let newRecord={
@@ -415,7 +420,7 @@ alert("Record Added Successfully");
 async function reloadData(){
 
 let check=
-confirm("Reload original data?");
+confirm("Reloading data");
 
 
 if(!check)return;
