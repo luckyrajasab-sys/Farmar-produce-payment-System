@@ -1,181 +1,90 @@
 [
-    {
-        "id": 1,
-        "name": "Mohan Kumar",
-        "phone": "9876543210",
-        "location": "Chennai",
-        "crop": "Rice",
-        "history": [
-            {
-                "date": "26/07/2026",
-                "activity": "Seed planted"
-            },
-            {
-                "date": "28/07/2026",
-                "activity": "Fertilizer applied"
-            },
-            {
-                "date": "05/08/2026",
-                "activity": "Irrigation completed"
-            }
-        ]
-    },
-
-
-    {
-        "id": 2,
-        "name": "Arun Raj",
-        "phone": "9876501234",
-        "location": "Kurnool",
-        "crop": "Cotton",
-        "history": [
-            {
-                "date": "10/07/2026",
-                "activity": "Land preparation completed"
-            },
-            {
-                "date": "15/07/2026",
-                "activity": "Cotton seeds planted"
-            }
-        ]
-    },
-
-
-    {
-        "id": 3,
-        "name": "Suresh",
-        "phone": "9123456780",
-        "location": "Madurai",
-        "crop": "Sugarcane",
-        "history": [
-            {
-                "date": "01/07/2026",
-                "activity": "Sugarcane planted"
-            },
-            {
-                "date": "20/07/2026",
-                "activity": "Organic fertilizer added"
-            }
-        ]
-    },
-
-    {
-        "id": 4,
-        "name": "Dhurandhar",
-        "phone": "9876543211",
-        "location": "Coimbatore",
-        "crop": "Wheat",
-        "history": [
-            {
-                "date": "05/07/2026",
-                "activity": "Wheat seeds sown"
-            },
-            {
-                "date": "15/07/2026",
-                "activity": "Pesticide applied"
-            }
-        ]
-      },
-      {
-        "id": 5,
-        "name": "Swathi",
-        "phone": "9876543212",
-        "location": "Tirunelveli",
-        "crop": "Maize",
-        "history": [
-            {
-                "date": "10/07/2026",
-                "activity": "Maize seeds planted"
-            },
-            {
-                "date": "20/07/2026",
-                "activity": "Irrigation completed"
-            }
-        ]
-      },
-      {
-        "id": 6,
-        "name": "Kiran",
-        "phone": "9876543213",
-        "location": "Salem",
-        "crop": "Tomato",
-        "history": [
-            {
-                "date": "15/07/2026",
-                "activity": "Tomato seeds sown"
-            },
-            {
-                "date": "25/07/2026",
-                "activity": "Fertilizer applied"
-            }
-        ]
-      },
-      {
-        "id": 7,
-        "name": "Priya",
-        "phone": "9876543214",
-        "location": "Erode",
-        "crop": "Chili",
-        "history": [
-            {
-                "date": "20/07/2026",
-                "activity": "Chili seeds planted"
-            },
-            {
-                "date": "30/07/2026",
-                "activity": "Pesticide applied"
-            }
-        ]
-      },
-      {
-        "id": 8,
-        "name": "Ravi",
-        "phone": "9876543215",
-        "location": "Vellore",
-        "crop": "Brinjal",
-        "history": [
-            {
-                "date": "25/07/2026",
-                "activity": "Brinjal seeds sown"
-            },
-            {
-                "date": "05/08/2026",
-                "activity": "Irrigation completed"
-            }
-        ]
-      },
-      {
-        "id": 9,
-        "name": "Anitha",
-        "phone": "9876543216",
-        "location": "Tiruppur",
-        "crop": "Cucumber",
-        "history": [
-            {
-                "date": "30/07/2026",
-                "activity": "Cucumber seeds planted"
-            },
-            {
-                "date": "10/08/2026",
-                "activity": "Fertilizer applied"
-            }
-        ]
-      },
-      {
-        "id": 10,
-        "name": "Vijay",
-        "phone": "9876543217",
-        "location": "Thanjavur",
-        "crop": "Banana",
-        "history": [
-            {
-                "date": "05/08/2026",
-                "activity": "Banana saplings planted"
-            },
-            {
-                "date": "15/08/2026",
-                "activity": "Irrigation completed"
-            }
-        ]
-      }
+  {
+    "entry_id": "ENT-001",
+    "member_id": "F-201",
+    "member_name": "Arjun Prakash",
+    "produce": "Tomato",
+    "quantity_kg": 150,
+    "rate": 28,
+    "amount": 4200,
+    "date": "2026-07-18",
+    "payment_status": "Paid"
+  },
+  {
+    "entry_id": "ENT-002",
+    "member_id": "F-202",
+    "member_name": "Kavitha Raj",
+    "produce": "Onion",
+    "quantity_kg": 240,
+    "rate": 32,
+    "amount": 7680,
+    "date": "2026-07-19",
+    "payment_status": "Pending"
+  },
+  {
+    "entry_id": "ENT-003",
+    "member_id": "F-203",
+    "member_name": "Naveen Kumar",
+    "produce": "Brinjal",
+    "quantity_kg": 90,
+    "rate": 40,
+    "amount": 3600,
+    "date": "2026-07-20",
+    "payment_status": "Paid"
+  },
+  {
+    "entry_id": "ENT-004",
+    "member_id": "F-204",
+    "member_name": "Divya Srinivas",
+    "produce": "Chilli",
+    "quantity_kg": 75,
+    "rate": 95,
+    "amount": 7125,
+    "date": "2026-07-21",
+    "payment_status": "Pending"
+  },
+  {
+    "entry_id": "ENT-005",
+    "member_id": "F-205",
+    "member_name": "Manoj Reddy",
+    "produce": "Potato",
+    "quantity_kg": 180,
+    "rate": 26,
+    "amount": 4680,
+    "date": "2026-07-22",
+    "payment_status": "Paid"
+  },
+  {
+    "entry_id": "ENT-006",
+    "member_id": "F-206",
+    "member_name": "Sneha Devi",
+    "produce": "Carrot",
+    "quantity_kg": 110,
+    "rate": 60,
+    "amount": 6600,
+    "date": "2026-07-23",
+    "payment_status": "Pending"
+  },
+  {
+    "entry_id": "ENT-007",
+    "member_id": "F-207",
+    "member_name": "Rahul Varma",
+    "produce": "Rice",
+    "quantity_kg": 400,
+    "rate": 48,
+    "amount": 19200,
+    "date": "2026-07-24",
+    "payment_status": "Paid"
+  },
+  {
+    "entry_id": "ENT-008",
+    "member_id": "F-208",
+    "member_name": "Anjali Rao",
+    "produce": "Cabbage",
+    "quantity_kg": 130,
+    "rate": 35,
+    "amount": 4550,
+    "date": "2026-07-25",
+    "payment_status": "Pending"
+  }
 ]
