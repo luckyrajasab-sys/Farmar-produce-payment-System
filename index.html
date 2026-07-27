@@ -1,133 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Smart Farmer Collection Register</title>
-
+<title>Smart Farmer Produce Collection Register</title>
 <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
-
 <div class="background"></div>
-
 
 <div class="container">
 
-
-
 <header class="hero glass">
 
-
 <div>
+<span class="badge">🌱 SIH 2026 Farmer Producer Group</span>
 
-<span class="badge">
-🌱 SIH 2026 Farmer Producer Group
-</span>
-
-
-<h1>
-Smart Produce Collection Register
-</h1>
-
+<h1>Smart Farmer Produce Collection Register</h1>
 
 <p>
-Manage farmer collections, calculate payments,
-and avoid manual record disputes.
+Digital system to manage farmer collections,
+calculate payments and maintain transparent records.
 </p>
 
-
 </div>
-
-
 
 <div class="hero-actions">
 
+<button id="themeBtn">🌙 Dark</button>
 
-<div class="count glass-mini"
-id="displayCount">
+<div class="count glass-mini" id="displayCountPill">
 Showing 0 Records
 </div>
 
-
-<button id="themeBtn">
-🌙 Dark
-</button>
-
-
 </div>
-
-
 
 </header>
 
 
+<section class="dashboard">
 
 
-
-<main class="dashboard">
-
-
-
-
-
-<section class="card glass register">
+<div class="card glass">
 
 
 <div class="header">
-
-<div>
-
-<h2>
-📋 Collection Register
-</h2>
-
-<p>
-Search, filter and manage farmer entries
-</p>
-
+<h2>Collection Register</h2>
+<p>Search, filter and manage farmer collection records.</p>
 </div>
-
-
-</div>
-
-
 
 
 
 <div class="controls">
 
-
-<input
+<input 
 id="searchInput"
-placeholder="Search farmer, ID, produce..."
->
+placeholder="Search farmer, ID, produce...">
 
 
 <select id="statusFilter">
-
-<option value="All">
-All Status
-</option>
-
-<option value="Paid">
-Paid
-</option>
-
-<option value="Pending">
-Pending
-</option>
-
+<option value="All">All Status</option>
+<option value="Paid">Paid</option>
+<option value="Pending">Pending</option>
 </select>
-
 
 
 <select id="produceFilter">
@@ -139,7 +76,6 @@ All Produce
 </select>
 
 
-
 <button id="resetBtn">
 Reset
 </button>
@@ -149,78 +85,34 @@ Reset
 
 
 
-
-
-
-
 <div class="stats">
 
 
 <div class="stat glass-mini">
-
-<span>
-Records
-</span>
-
-<h3 id="shownCount">
-0
-</h3>
-
+<span>Records</span>
+<h3 id="shownCount">0</h3>
 </div>
-
-
 
 
 <div class="stat glass-mini">
-
-<span>
-Total Amount
-</span>
-
-<h3 id="totalAmount">
-0
-</h3>
-
+<span>Total Amount</span>
+<h3 id="totalAmount">0</h3>
 </div>
-
-
-
 
 
 <div class="stat glass-mini">
-
-<span>
-Paid / Pending
-</span>
-
-<h3 id="paidPending">
-0 / 0
-</h3>
-
+<span>Paid/Pending</span>
+<h3 id="paidPending">0/0</h3>
 </div>
-
-
-
 
 
 <div class="stat glass-mini">
-
-<span>
-Total KG
-</span>
-
-<h3 id="totalKg">
-0
-</h3>
-
+<span>Total KG</span>
+<h3 id="totalKg">0</h3>
 </div>
 
 
-
 </div>
-
-
-
 
 
 
@@ -230,122 +122,82 @@ Total KG
 
 <table>
 
-
 <thead>
 
 <tr>
 
-<th>
-ID
-</th>
-
-<th>
-Farmer
-</th>
-
-<th>
-Produce
-</th>
-
-<th>
-Quantity
-</th>
-
-<th>
-Rate
-</th>
-
-<th>
-Amount
-</th>
-
-<th>
-Status
-</th>
-
+<th>ID</th>
+<th>Farmer</th>
+<th>Produce</th>
+<th>Quantity</th>
+<th>Rate</th>
+<th>Amount</th>
+<th>Status</th>
 
 </tr>
 
 </thead>
 
 
-
-<tbody id="tableBody">
-
-</tbody>
+<tbody id="tableBody"></tbody>
 
 
 </table>
 
 
-
 <div id="emptyState">
-
-No Records Found
-
+No records found
 </div>
 
 
 </div>
 
 
-
-</section>
-
+</div>
 
 
 
 
 
+<div class="side">
 
 
 
-<section class="side">
-
-
-
-
-
-<section class="card glass">
+<div class="card glass">
 
 
 <div class="header">
 
-<h2>
-📊 Farmer Details
-</h2>
+<h2>Farmer Details</h2>
+
+<p>Selected farmer summary</p>
 
 </div>
 
 
-
-<div id="detailPanel"
-class="details">
-
+<div 
+class="details"
+id="detailPanel">
 
 Select a record
 
 </div>
 
 
-</section>
+</div>
 
 
 
 
 
-
-
-
-
-<section class="card glass">
+<div class="card glass">
 
 
 <div class="header">
 
-<h2>
-➕ Add Collection
-</h2>
+<h2>Add Collection</h2>
+
+<p>Create a new farmer entry</p>
 
 </div>
 
@@ -355,185 +207,136 @@ Select a record
 <form id="recordForm">
 
 
-
 <div class="form-grid">
 
 
 
 <div>
 
-<label>
-Member ID
-</label>
+<label>Member ID</label>
 
-<input
+<input 
 id="memberId"
-required
-placeholder="M-107"
->
+placeholder="F-101"
+required>
 
 </div>
 
 
 
-
-
 <div>
 
-<label>
-Farmer Name
-</label>
+<label>Farmer Name</label>
 
-<input
+<input 
 id="memberName"
-required
-placeholder="Name"
->
+placeholder="Farmer name"
+required>
 
 </div>
 
 
 
-
-
 <div>
 
-<label>
-Produce
-</label>
+<label>Produce</label>
 
-<input
+<input 
 id="produce"
-required
 placeholder="Tomato"
->
+required>
 
 </div>
 
 
 
-
-
 <div>
 
-<label>
-Date
-</label>
+<label>Date</label>
 
-<input
+<input 
 id="date"
 type="date"
-required
->
+required>
 
 </div>
 
 
 
-
-
 <div>
 
-<label>
-Quantity KG
-</label>
+<label>Quantity (KG)</label>
 
 <input
 id="quantityKg"
 type="number"
 step="0.1"
-required
->
+required>
 
 </div>
 
 
 
-
-
 <div>
 
-<label>
-Rate
-</label>
+<label>Rate</label>
 
 <input
 id="rate"
 type="number"
 step="0.01"
-required
->
+required>
 
 </div>
 
 
 
 
-
 <div>
 
-<label>
-Payment Status
-</label>
-
+<label>Status</label>
 
 <select id="paymentStatus">
-
 
 <option value="Pending">
 Pending
 </option>
 
-
 <option value="Paid">
 Paid
 </option>
 
-
 </select>
 
-
 </div>
-
 
 
 
 
 <div>
 
-<label>
-Amount
-</label>
+<label>Calculated Amount</label>
 
-<input
+<input 
 id="amountPreview"
-disabled
-value="0"
->
+readonly
+value="0">
 
 </div>
 
 
-
-
 </div>
-
-
-
-
 
 
 
 <div class="buttons">
-
 
 <button type="submit">
 Save Record
 </button>
 
 
-
-<button
+<button 
 type="button"
 id="seedBtn">
 
@@ -545,47 +348,31 @@ Reload Data
 </div>
 
 
-
 </form>
 
 
+</div>
+
+
+</div>
+
+
 </section>
-
-
-
-
-
-
-</section>
-
-
-
-</main>
-
-
-
-
 
 
 
 <footer>
 
-Built for SIH 2026 • Smart Farmer Management System
+Smart Farmer Produce Collection Register | SIH 2026
 
 </footer>
-
-
 
 
 </div>
 
 
 
-
-
 <script src="script.js"></script>
 
-
 </body>
-
 </html>
