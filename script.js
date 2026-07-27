@@ -1,376 +1,178 @@
-const STORAGE_KEY = "farmer_collection_register_v1";
+const KEY="smart_farmer_records_v2";
 
-let records = [];
-let selectedId = null;
+let records=[];
+let selected=null;
 
+const e={
+search:document.getElementById("searchInput"),
+status:document.getElementById("statusFilter"),
+produceFilter:document.getElementById("produceFilter"),
+table:document.getElementById("tableBody"),
+empty:document.getElementById("emptyState"),
+count:document.getElementById("shownCount"),
+amount:document.getElementById("totalAmount"),
+paid:document.getElementById("paidPending"),
+kg:document.getElementById("totalKg"),
+display:document.getElementById("displayCountPill"),
+detail:document.getElementById("detailPanel"),
+form:document.getElementById("recordForm"),
+memberId:document.getElementById("memberId"),
+memberName:document.getElementById("memberName"),
+produce:document.getElementById("produce"),
+date:document.getElementById("date"),
+quantity:document.getElementById("quantityKg"),
+rate:document.getElementById("rate"),
+payment:document.getElementById("paymentStatus"),
+preview:document.getElementById("amountPreview"),
+reset:document.getElementById("resetBtn"),
+seed:document.getElementById("seedBtn"),
+theme:document.getElementById("themeBtn")
+};
 
-const $ = id => document.getElementById(id);
+function money(n){
+return Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2});
+}
 
+function save(){
+localStorage.setItem(KEY,JSON.stringify(records));
+}
 
-const els = {
+async function load(){
 
-search: $("searchInput"),
-status: $("statusFilter"),
-produce: $("produceFilter"),
-reset: $("resetBtn"),
+let data=localStorage.getItem(KEY);
 
-table: $("tableBody"),
-empty: $("emptyState"),
+if(data){
+records=JSON.parse(data);
+}
+else{
+let res=await fetch("data.json");
+records=await res.json();
+save();
+}
 
-count: $("shownCount"),
-amount: $("totalAmount"),
-paid: $("paidPending"),
-kg: $("totalKg"),
-display: $("displayCount"),
+}
 
-detail: $("detailPanel"),
+function init(){
 
-form: $("recordForm"),
+load().then(()=>{
 
-memberId: $("memberId"),
-memberName: $("memberName"),
-produceInput: $("produce"),
-date: $("date"),
-quantity: $("quantityKg"),
-rate: $("rate"),
-payment: $("paymentStatus"),
-preview: $("amountPreview"),
+loadProduces();
 
-seed: $("seedBtn"),
+e.date.value=new Date().toISOString().slice(0,10);
 
-theme: $("themeBtn")
+events();
+
+loadTheme();
+
+render();
+
+});
+
+}
+
+function loadProduces(){
+
+let list=[...new Set(records.map(x=>x.produce))];
+
+list.forEach(x=>{
+
+let option=document.createElement("option");
+
+option.value=x;
+option.textContent=x;
+
+e.produceFilter.appendChild(option);
+
+});
+
+}
+
+function events(){
+
+e.search.oninput=render;
+
+e.status.onchange=render;
+
+e.produceFilter.onchange=render;
+
+e.quantity.oninput=calculate;
+
+e.rate.oninput=calculate;
+
+e.form.onsubmit=addRecord;
+
+e.reset.onclick=()=>{
+
+e.search.value="";
+e.status.value="All";
+e.produceFilter.value="All";
+
+render();
 
 };
 
+e.seed.onclick=reloadData;
 
-
-
-
-function money(value){
-
-return Number(value || 0)
-.toLocaleString(
-"en-IN",
-{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-}
-);
+e.theme.onclick=toggleTheme;
 
 }
-
-
-
 
 function calculate(){
 
-let q = Number(els.quantity.value);
+let q=Number(e.quantity.value);
 
-let r = Number(els.rate.value);
+let r=Number(e.rate.value);
 
+if(!q||!r){
 
-if(!q || !r){
-
-els.preview.value="0";
+e.preview.value="0";
 
 return 0;
 
 }
 
+let amount=q*r;
 
-let total = q*r;
+e.preview.value=money(amount);
 
-els.preview.value =
-money(total);
-
-
-return Number(total.toFixed(2));
+return Number(amount.toFixed(2));
 
 }
-
-
-
-
-
-function save(){
-
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify(records)
-);
-
-}
-
-
-
-
-
-function loadLocal(){
-
-let data =
-localStorage.getItem(STORAGE_KEY);
-
-
-return data ?
-JSON.parse(data)
-:
-null;
-
-}
-
-
-
-
-
-
-async function start(){
-
-
-let response =
-await fetch("data.json");
-
-
-let seed =
-await response.json();
-
-
-
-let local =
-loadLocal();
-
-
-
-records =
-local && local.length
-?
-local
-:
-seed;
-
-
-
-save();
-
-
-
-loadProduce();
-
-
-
-els.date.value =
-new Date()
-.toISOString()
-.slice(0,10);
-
-
-
-events();
-
-render();
-
-
-}
-
-
-
-
-
-function loadProduce(){
-
-
-let list =
-[
-...new Set(
-records.map(
-r=>r.produce
-)
-)
-];
-
-
-list.forEach(p=>{
-
-
-let option =
-document.createElement("option");
-
-
-option.value=p;
-
-option.textContent=p;
-
-
-els.produce.appendChild(option);
-
-
-});
-
-
-}
-
-
-
-
-
-
-function events(){
-
-
-
-els.search.oninput=render;
-
-els.status.onchange=render;
-
-els.produce.onchange=render;
-
-
-
-els.reset.onclick=()=>{
-
-
-els.search.value="";
-
-els.status.value="All";
-
-els.produce.value="All";
-
-
-render();
-
-
-};
-
-
-
-
-els.quantity.oninput=calculate;
-
-els.rate.oninput=calculate;
-
-
-
-els.form.onsubmit=
-addRecord;
-
-
-
-els.seed.onclick=
-reloadData;
-
-
-
-if(els.theme){
-
-els.theme.onclick=
-toggleTheme;
-
-}
-
-
-
-
-let savedTheme =
-localStorage.getItem("theme");
-
-
-if(savedTheme==="light"){
-
-document.body.classList.add("light");
-
-els.theme.innerHTML="☀️ Bright";
-
-}
-
-
-}
-
-
-
-
 
 function filtered(){
 
-
-
-let text =
-els.search.value
-.toLowerCase();
-
-
+let text=e.search.value.toLowerCase();
 
 return records.filter(r=>{
 
-
-let search =
-
-[
-r.entry_id,
-r.member_id,
-r.member_name,
-r.produce
-]
-
-.join(" ")
-.toLowerCase();
+let data=
+`${r.entry_id}
+${r.member_id}
+${r.member_name}
+${r.produce}`.toLowerCase();
 
 
-
-return (
-
-(!text || search.includes(text))
-
-&&
-
-(
-els.status.value==="All"
-||
-r.payment_status===els.status.value
-)
-
-&&
-
-(
-els.produce.value==="All"
-||
-r.produce===els.produce.value
-)
-
+return(
+(!text||data.includes(text))&&
+(e.status.value==="All"||r.payment_status===e.status.value)&&
+(e.produceFilter.value==="All"||r.produce===e.produceFilter.value)
 );
-
 
 });
 
-
 }
-
-
-
-
-
-
 function render(){
 
+let data=filtered();
 
-let data =
-filtered();
-
-
-
-els.table.innerHTML="";
-
-
+e.table.innerHTML="";
 
 data.forEach(r=>{
 
+let tr=document.createElement("tr");
 
-let tr =
-document.createElement("tr");
-
-
-
-if(r.entry_id===selectedId)
+if(selected===r.entry_id)
 tr.classList.add("active");
-
 
 
 tr.innerHTML=`
@@ -378,240 +180,132 @@ tr.innerHTML=`
 <td>${r.entry_id}</td>
 
 <td>
-
 ${r.member_name}
-
 <br>
-
 <small>${r.member_id}</small>
-
 </td>
-
 
 <td>${r.produce}</td>
 
+<td>${r.quantity_kg} KG</td>
 
-<td>${r.quantity_kg} kg</td>
-
-
-<td>₹ ${r.rate}</td>
-
+<td>₹ ${money(r.rate)}</td>
 
 <td>₹ ${money(r.amount)}</td>
 
-
-<td>
-
-${r.payment_status}
-
-</td>
+<td>${r.payment_status}</td>
 
 `;
-
 
 
 tr.onclick=()=>{
 
+selected=r.entry_id;
 
-selectedId=r.entry_id;
-
-renderDetail(r);
+showDetail(r);
 
 render();
-
 
 };
 
 
-
-els.table.appendChild(tr);
-
+e.table.appendChild(tr);
 
 });
 
 
+e.empty.style.display=data.length?"none":"block";
 
 
+let total=data.reduce((a,b)=>a+b.amount,0);
 
-els.empty.style.display =
-data.length ? "none":"block";
+let totalKg=data.reduce((a,b)=>a+b.quantity_kg,0);
 
+let paid=data.filter(x=>x.payment_status==="Paid").length;
 
-
-
-let totalAmount =
-data.reduce(
-(a,b)=>a+b.amount,
-0
-);
+let pending=data.filter(x=>x.payment_status==="Pending").length;
 
 
+e.count.textContent=data.length;
 
-let totalKg =
-data.reduce(
-(a,b)=>a+b.quantity_kg,
-0
-);
+e.amount.textContent="₹ "+money(total);
 
+e.kg.textContent=totalKg+" KG";
 
+e.paid.textContent=`${paid}/${pending}`;
 
-let paid =
-data.filter(
-x=>x.payment_status==="Paid"
-).length;
+e.display.textContent=`Showing ${data.length} Records`;
 
 
-
-let pending =
-data.filter(
-x=>x.payment_status==="Pending"
-).length;
+if(!selected&&data.length)
+selected=data[0].entry_id;
 
 
+let current=records.find(x=>x.entry_id===selected);
 
-
-els.count.textContent=data.length;
-
-els.amount.textContent=
-"₹ "+money(totalAmount);
-
-
-els.paid.textContent=
-`${paid} / ${pending}`;
-
-
-els.kg.textContent=
-totalKg;
-
-
-
-els.display.textContent=
-`Showing ${data.length} Records`;
-
-
-
-if(!selectedId && data.length){
-
-selectedId=data[0].entry_id;
+showDetail(current);
 
 }
 
 
-
-let selected =
-records.find(
-x=>x.entry_id===selectedId
-);
-
-
-
-renderDetail(selected);
-
-
-}
-
-
-
-
-
-
-
-function renderDetail(r){
-
+function showDetail(r){
 
 if(!r){
 
-els.detail.innerHTML=
-"Select a farmer record";
+e.detail.innerHTML="Select a record";
 
 return;
 
 }
 
 
+let farmerRecords=
+records.filter(x=>x.member_id===r.member_id);
 
 
-let farmer =
-records.filter(
-x=>x.member_id===r.member_id
-);
+let totalKg=
+farmerRecords.reduce((a,b)=>a+b.quantity_kg,0);
 
 
-
-let totalKg =
-farmer.reduce(
-(a,b)=>a+b.quantity_kg,
-0
-);
+let totalAmount=
+farmerRecords.reduce((a,b)=>a+b.amount,0);
 
 
 
-let totalMoney =
-farmer.reduce(
-(a,b)=>a+b.amount,
-0
-);
-
-
-
-els.detail.innerHTML=`
+e.detail.innerHTML=`
 
 <div class="detail-box">
 
-<h2>
-${r.member_name}
-</h2>
+<h2>${r.member_name}</h2>
 
-<p>
-ID : ${r.member_id}
-</p>
+<p>ID : ${r.member_id}</p>
 
+<p>Produce : ${r.produce}</p>
 
-<p>
-Produce : ${r.produce}
-</p>
+<p>Quantity : ${r.quantity_kg} KG</p>
 
+<p>Rate : ₹ ${money(r.rate)}</p>
 
-<p>
-Quantity :
-${r.quantity_kg} KG
-</p>
+<p>Amount : ₹ ${money(r.amount)}</p>
+
+<p>Status : ${r.payment_status}</p>
 
 
-<p>
-Amount :
-₹ ${money(r.amount)}
-</p>
-
-
-<p>
-Status :
-${r.payment_status}
-</p>
+<button onclick="updatePayment('${r.entry_id}')">
+Change Status
+</button>
 
 
 </div>
 
 
-
 <div class="detail-box">
 
-<h3>
-Farmer Summary
-</h3>
+<h3>Farmer Summary</h3>
 
+<p>Total Quantity : ${totalKg} KG</p>
 
-<p>
-Total Quantity :
-${totalKg} KG
-</p>
-
-
-<p>
-Total Value :
-₹ ${money(totalMoney)}
-</p>
-
+<p>Total Amount : ₹ ${money(totalAmount)}</p>
 
 </div>
 
@@ -621,78 +315,73 @@ Total Value :
 
 
 
+function updatePayment(id){
+
+let record=
+records.find(x=>x.entry_id===id);
 
 
-function addRecord(e){
-
-e.preventDefault();
+if(!record)return;
 
 
+record.payment_status=
+record.payment_status==="Paid"
+?"Pending"
+:"Paid";
 
-let amount =
-calculate();
+
+save();
+
+render();
+
+showDetail(record);
+
+}
 
 
 
-if(amount<=0){
+function addRecord(event){
 
-alert(
-"Enter valid quantity and rate"
-);
+event.preventDefault();
+
+
+let amount=calculate();
+
+
+if(!amount){
+
+alert("Enter valid quantity and rate");
 
 return;
 
 }
 
 
-
-
-let id =
-"ENT-"+String(
-records.length+1
-)
-.padStart(3,"0");
-
+let id=
+"ENT-"+String(records.length+1).padStart(3,"0");
 
 
 let newRecord={
 
-
 entry_id:id,
 
-member_id:
-els.memberId.value.trim(),
+member_id:e.memberId.value,
 
+member_name:e.memberName.value,
 
-member_name:
-els.memberName.value.trim(),
+produce:e.produce.value,
 
+quantity_kg:Number(e.quantity.value),
 
-produce:
-els.produceInput.value.trim(),
-
-
-quantity_kg:
-Number(els.quantity.value),
-
-
-rate:
-Number(els.rate.value),
-
+rate:Number(e.rate.value),
 
 amount:amount,
 
+date:e.date.value,
 
-date:
-els.date.value,
-
-
-payment_status:
-els.payment.value
-
+payment_status:e.payment.value
 
 };
-
 
 
 records.unshift(newRecord);
@@ -701,93 +390,63 @@ records.unshift(newRecord);
 save();
 
 
-
-selectedId=id;
-
-
-els.form.reset();
+selected=id;
 
 
-els.date.value=
-new Date()
-.toISOString()
-.slice(0,10);
+e.form.reset();
 
+
+e.date.value=
+new Date().toISOString().slice(0,10);
 
 
 render();
 
 
-alert(
-"Farmer record added successfully 🌱"
-);
-
+alert("Record Added Successfully");
 
 }
-
-
-
 
 
 
 
 async function reloadData(){
 
-
-let ok =
-confirm(
-"Reload original data?"
-);
+let check=
+confirm("Reload original data?");
 
 
-if(!ok)return;
+if(!check)return;
 
 
-
-let response =
+let res=
 await fetch("data.json");
 
 
-records =
-await response.json();
-
+records=
+await res.json();
 
 
 save();
 
 
-selectedId=null;
+selected=null;
 
 
 render();
-
 
 }
 
 
 
 
-
-
-
 function toggleTheme(){
-
 
 document.body.classList.toggle("light");
 
 
-let light =
+let light=
 document.body.classList.contains("light");
-
-
-
-els.theme.innerHTML =
-light
-?
-"☀️ Bright"
-:
-"🌙 Dark";
-
 
 
 localStorage.setItem(
@@ -796,10 +455,34 @@ light?"light":"dark"
 );
 
 
+e.theme.textContent=
+light
+?"☀️ Bright"
+:"🌙 Dark";
+
 }
 
 
 
+function loadTheme(){
+
+let theme=
+localStorage.getItem("theme");
 
 
-start();
+if(theme==="light"){
+
+document.body.classList.add("light");
+
+e.theme.textContent="☀️ Bright";
+
+}
+
+}
+
+
+
+window.updatePayment=updatePayment;
+
+
+init();
